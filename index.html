@@ -1,99 +1,237 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Share Details with Telegram</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-    </style>
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Share Details and Photos to Telegram</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #444;
+    }
+
+    /* Form Styles */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      max-width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    input[type="file"] {
+      padding: 5px;
+    }
+
+    button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Preview Section */
+    #preview {
+      margin-top: 20px;
+    }
+
+    #generatedText {
+      background: #f7f7f7;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      white-space: pre-line;
+    }
+
+    .photo-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .photo-preview img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #shareButton {
+      display: block;
+      margin: 20px 0;
+      padding: 10px;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+
+      button {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h1>Share Your Details</h1>
-    <form id="detailsForm">
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-            <label for="telephone">Telephone:</label>
-            <input type="tel" id="telephone" name="telephone" required>
-        </div>
-        <div class="form-group">
-            <label for="address">Address:</label>
-            <textarea id="address" name="address" rows="3" required></textarea>
-        </div>
-        <div class="form-group">
-            <label for="photos">Upload Photos:</label>
-            <input type="file" id="photos" name="photos" accept="image/*" multiple required>
-        </div>
-        <button type="button" id="submitBtn">Submit and Share</button>
+
+  <div class="container">
+    <h1>Share Details and Photos</h1>
+    <form id="userForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" placeholder="Enter your name" required="">
+
+      <label for="telephone">Telephone:</label>
+      <input type="tel" id="telephone" name="telephone" placeholder="Enter your phone number" required="">
+
+      <label for="address">Address:</label>
+      <textarea id="address" name="address" placeholder="Enter your address" rows="3"></textarea>
+
+      <label for="photos">Upload Photos:</label>
+      <input type="file" id="photos" name="photos" accept="image/*" multiple="">
+
+      <button type="button" id="submitButton">Submit</button>
     </form>
 
-    <script>
-        document.getElementById('submitBtn').addEventListener('click', async () => {
-            const name = document.getElementById('name').value;
-            const telephone = document.getElementById('telephone').value;
-            const address = document.getElementById('address').value;
-            const photos = document.getElementById('photos').files;
+    <div id="preview">
+      <h2>Generated Details:</h2>
+      <p id="generatedText"></p>
+      <div class="photo-preview" id="photoPreview"></div>
+      <button id="shareButton">Share to Telegram</button>
+    </div>
+  </div>
 
-            if (!name || !telephone || !address || photos.length === 0) {
-                alert('Please fill out all fields and upload at least one photo.');
-                return;
-            }
+  <script>
+    const form = document.getElementById('userForm');
+    const submitButton = document.getElementById('submitButton');
+    const generatedText = document.getElementById('generatedText');
+    const photoPreview = document.getElementById('photoPreview');
+    const shareButton = document.getElementById('shareButton');
 
-            // Create summary text
-            const text = `Name: ${name}\nTelephone: ${telephone}\nAddress: ${address}`;
+    let uploadedPhotos = [];
 
-            // Group photos as an array of Blob
-            const photoFiles = [];
-            for (let i = 0; i < photos.length; i++) {
-                photoFiles.push(photos[i]);
-            }
+    // Event listener for form submission
+    submitButton.addEventListener('click', () => {
+      const name = document.getElementById('name').value.trim();
+      const telephone = document.getElementById('telephone').value.trim();
+      const address = document.getElementById('address').value.trim();
+      const photos = document.getElementById('photos').files;
 
-            // Use Web Share API
-            if (navigator.canShare && navigator.canShare({ files: photoFiles })) {
-                try {
-                    await navigator.share({
-                        title: 'User Details',
-                        text: text,
-                        files: photoFiles,
-                    });
-                    alert('Details and photos shared successfully!');
-                } catch (error) {
-                    console.error('Error sharing:', error);
-                    alert('Error sharing the details and photos.');
-                }
-            } else {
-                alert('Your browser does not support sharing grouped files via the Web Share API.');
-            }
-        });
-    </script>
-</body>
-</html>
+      // Validate required fields
+      if (!name || !telephone) {
+        alert('Please fill in your name and telephone.');
+        return;
+      }
+
+      // Generate the message
+      let message = `Hi ${name},\nYour phone number is ${telephone}.`;
+      if (address) {
+        message += `\nYour address is: ${address}.`;
+      }
+      message += `\nHere are the photos you uploaded:`;
+
+      generatedText.textContent = message;
+
+      // Preview uploaded photos
+      photoPreview.innerHTML = ''; // Clear previous preview
+      uploadedPhotos = []; // Clear previously stored photos
+      Array.from(photos).forEach(photo => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          photoPreview.appendChild(img);
+        };
+        reader.readAsDataURL(photo);
+        uploadedPhotos.push(photo);
+      });
+
+      // Show share button only if photos are uploaded
+      if (photos.length > 0) {
+        shareButton.style.display = 'block';
+      } else {
+        shareButton.style.display = 'none';
+      }
+    });
+
+    // Event listener for share button
+    shareButton.addEventListener('click', async () => {
+      const name = document.getElementById('name').value.trim();
+      const telephone = document.getElementById('telephone').value.trim();
+      const address = document.getElementById('address').value.trim();
+
+      // Prepare the share message
+      let shareMessage = `Hi ${name},\nYour phone number is ${telephone}.`;
+      if (address) {
+        shareMessage += `\nYour address is: ${address}.`;
+      }
+      shareMessage += `\nHere are the photos you uploaded.`;
+
+      // Check if the Web Share API is supported
+      if (navigator.canShare && navigator.canShare({ files: uploadedPhotos })) {
+        try {
+          // Use the Web Share API to share details and photos
+          await navigator.share({
+            title: 'Shared Details and Photos',
+            text: shareMessage,
+            files: uploadedPhotos
+          });
+          alert('Shared successfully to Telegram!');
+        } catch (error) {
+          console.error('Error sharing:', error);
+          alert('Failed to share the content.');
+        }
+      } else {
+        alert('Web Share API is not fully supported in your browser.');
+      }
+    });
+  </script>
+
+
+
+</body></html>
