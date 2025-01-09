@@ -1,256 +1,297 @@
 <!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Share Details and Photos to Telegram</title>
+  <title>Farm Report Form</title>
   <style>
-    /* General Styles */
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
       background-color: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      margin: 0;
     }
 
     h1 {
       text-align: center;
-      color: #444;
+      font-size: 1.5em;
+      margin-bottom: 15px;
     }
 
-    /* Form Styles */
-    form {
+    .form-container {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-row {
       display: flex;
-      flex-direction: column;
-      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      gap: 10px;
     }
 
-    label {
-      font-weight: bold;
+    .form-group {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9em;
       margin-bottom: 5px;
     }
 
-    input, textarea, button {
+    .form-group input, .form-group select, .form-group textarea {
       width: 100%;
-      max-width: 100%;
-      padding: 10px;
-      font-size: 16px;
+      padding: 8px;
+      font-size: 0.9em;
       border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
+      border-radius: 4px;
     }
 
-    input[type="file"] {
-      padding: 5px;
+    textarea {
+      resize: none;
     }
 
-    button {
-      background: #007bff;
+    .form-group.full-width {
+      flex: 1 1 100%;
+    }
+
+    .add-crop-btn, .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      background-color: #007bff;
       color: #fff;
       border: none;
+      border-radius: 4px;
       cursor: pointer;
-      transition: background 0.3s;
+      margin: 10px 0;
     }
 
-    button:hover {
-      background: #0056b3;
+    .add-crop-btn:hover, .submit-btn:hover {
+      background-color: #0056b3;
     }
 
-    button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
+    .crop-section {
+      display: none;
     }
 
-    /* Preview Section */
-    #preview {
-      margin-top: 20px;
-    }
-
-    #generatedText {
-      background: #f7f7f7;
-      padding: 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      white-space: pre-line;
-    }
-
-    .photo-preview {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .photo-preview img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    #shareButton {
-      display: block;
-      margin: 20px 0;
-      padding: 10px;
-      font-size: 18px;
-      text-align: center;
-    }
-
-    /* Responsive Design */
     @media (max-width: 600px) {
-      .container {
-        padding: 15px;
-      }
-
-      button {
-        font-size: 16px;
+      .form-group {
+        min-width: 100%;
       }
     }
   </style>
 </head>
 <body>
-
-  <div class="container">
-    <h1>Share Details and Photos</h1>
-    <form id="userForm">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" placeholder="Enter your name" required="">
-
-      <label for="telephone">Telephone:</label>
-      <input type="tel" id="telephone" name="telephone" placeholder="Enter your phone number (numbers only)" required="">
-
-      <label for="address">Address:</label>
-      <textarea id="address" name="address" placeholder="Enter your address" rows="3"></textarea>
-
-      <label for="photos">Upload Photos:</label>
-      <input type="file" id="photos" name="photos" accept="image/*" multiple="">
-
-      <button type="button" id="submitButton">Submit</button>
-    </form>
-
-    <div id="preview">
-      <h2>Generated Details:</h2>
-      <p id="generatedText"></p>
-      <div class="photo-preview" id="photoPreview"></div>
-      <button id="shareButton">Share to Telegram</button>
+  <h1>Farm Report Form</h1>
+  <div class="form-container">
+    <!-- Section 1: Report Date -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="report-date">Report Date</label>
+        <input type="date" id="report-date" value="">
+      </div>
     </div>
+
+    <!-- Section 2: Farmer Information -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="farmer-name">Farmer Name</label>
+        <input type="text" id="farmer-name">
+      </div>
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender">
+          <option value="">Select</option>
+          <option value="ប">ប</option>
+          <option value="ស">ស</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="telephone">Telephone</label>
+        <input type="text" id="telephone" placeholder="### ### ### or ### ### ####">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="village">Village</label>
+        <input type="text" id="village">
+      </div>
+      <div class="form-group">
+        <label for="commune">Commune</label>
+        <input type="text" id="commune">
+      </div>
+      <div class="form-group">
+        <label for="district">District</label>
+        <input type="text" id="district">
+      </div>
+      <div class="form-group">
+        <label for="province">Province</label>
+        <input type="text" id="province">
+      </div>
+    </div>
+
+    <!-- Section 3: Crop Information -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="crop-type">Crop Type</label>
+        <input type="text" id="crop-type">
+      </div>
+      <div class="form-group">
+        <label for="farm-area">Farm Area (ha)</label>
+        <input type="text" id="farm-area">
+      </div>
+      <div class="form-group">
+        <label for="age-of-plant">Age of Plant (months)</label>
+        <input type="text" id="age-of-plant">
+      </div>
+    </div>
+
+    <!-- Section 4: Other Crop -->
+    <button type="button" class="add-crop-btn" onclick="showCropSection()">Add Crop</button>
+    <div class="crop-section" id="crop-section">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="other-crop-type">Other Crop Type</label>
+          <input type="text" id="other-crop-type">
+        </div>
+        <div class="form-group">
+          <label for="other-farm-area">Farm Area (ha)</label>
+          <input type="text" id="other-farm-area">
+        </div>
+        <div class="form-group">
+          <label for="other-age-of-plant">Age of Plant (months)</label>
+          <input type="text" id="other-age-of-plant">
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5: Farm Situation -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="farm-situation">Situation of Farm</label>
+        <textarea id="farm-situation" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="farm-problem">Problem in Farm</label>
+        <textarea id="farm-problem" rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Section 6: Solutions and Pesticide History -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="solution">Solution</label>
+        <textarea id="solution" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="pesticide-history">History of Using Pesticide</label>
+        <textarea id="pesticide-history" rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Section 7: Teamwork -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="teamwork">Teamwork</label>
+        <textarea id="teamwork" rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="button" class="submit-btn" onclick="generateAndShare()">Submit</button>
   </div>
 
   <script>
-    const form = document.getElementById('userForm');
-    const submitButton = document.getElementById('submitButton');
-    const generatedText = document.getElementById('generatedText');
-    const photoPreview = document.getElementById('photoPreview');
-    const shareButton = document.getElementById('shareButton');
+    // Set default value for report date
+    document.getElementById('report-date').value = new Date().toISOString().split('T')[0];
 
-    let uploadedPhotos = [];
-
-    // Function to format telephone number
-    function formatTelephone(telephone) {
-      const digits = telephone.replace(/\D/g, ''); // Remove non-numeric characters
-      if (digits.length === 9) {
-        return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6, 9)}`;
-      } else if (digits.length === 10) {
-        return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6, 10)}`;
-      }
-      return telephone; // Return as is if it doesn't match the expected lengths
+    function showCropSection() {
+      document.getElementById('crop-section').style.display = 'block';
     }
 
-    // Event listener for form submission
-    submitButton.addEventListener('click', () => {
-      const name = document.getElementById('name').value.trim();
-      const telephone = document.getElementById('telephone').value.trim();
-      const address = document.getElementById('address').value.trim();
-      const photos = document.getElementById('photos').files;
-
-      // Validate required fields
-      if (!name) {
-        alert('Please enter your name.');
-        return;
+    function formatPhoneNumber(phone) {
+      const cleaned = phone.replace(/\D/g, ''); // Remove non-digit characters
+      if (cleaned.length === 9) {
+        return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)} ${cleaned.slice(6)}`;
+      } else if (cleaned.length === 10) {
+        return `${cleaned.slice(0, 3)} ${cleaned.slice(3, 6)} ${cleaned.slice(6)}`;
       }
+      return phone;
+    }
 
-      // Format the telephone number
-      const formattedTelephone = formatTelephone(telephone);
+    function generateAndShare() {
+      const reportDate = document.getElementById('report-date').value;
+      const farmerName = document.getElementById('farmer-name').value;
+      const gender = document.getElementById('gender').value;
+      const telephone = formatPhoneNumber(document.getElementById('telephone').value);
+      const village = document.getElementById('village').value;
+      const commune = document.getElementById('commune').value;
+      const district = document.getElementById('district').value;
+      const province = document.getElementById('province').value;
 
-      // Generate the message
-      let message = `Hi ${name},\nYour phone number is ${formattedTelephone}.`;
-      if (address) {
-        message += `\nYour address is: ${address}.`;
-      }
-      message += `\nHere are the photos you uploaded:`;
+      const cropType = document.getElementById('crop-type').value;
+      const farmArea = document.getElementById('farm-area').value;
+      const ageOfPlant = document.getElementById('age-of-plant').value;
 
-      generatedText.textContent = message;
+      const otherCropType = document.getElementById('other-crop-type').value;
+      const otherFarmArea = document.getElementById('other-farm-area').value;
+      const otherAgeOfPlant = document.getElementById('other-age-of-plant').value;
 
-      // Preview uploaded photos
-      photoPreview.innerHTML = ''; // Clear previous preview
-      uploadedPhotos = []; // Clear previously stored photos
-      Array.from(photos).forEach(photo => {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const img = document.createElement('img');
-          img.src = e.target.result;
-          photoPreview.appendChild(img);
-        };
-        reader.readAsDataURL(photo);
-        uploadedPhotos.push(photo);
-      });
+      const farmSituation = document.getElementById('farm-situation').value;
+      const farmProblem = document.getElementById('farm-problem').value;
+      const solution = document.getElementById('solution').value;
+      const pesticideHistory = document.getElementById('pesticide-history').value;
+      const teamwork = document.getElementById('teamwork').value;
 
-      // Show share button only if photos are uploaded
-      if (photos.length > 0) {
-        shareButton.style.display = 'block';
+      const report = `
+**Farm Report**
+Date: ${reportDate}
+Farmer: ${farmerName || 'N/A'}
+Gender: ${gender || 'N/A'}
+Phone: ${telephone || 'N/A'}
+Address: ${village || 'N/A'}, ${commune || 'N/A'}, ${district || 'N/A'}, ${province || 'N/A'}
+
+**Crop Information**
+Crop Type: ${cropType || 'N/A'}
+Farm Area: ${farmArea || 'N/A'}
+Age of Plant: ${ageOfPlant || 'N/A'}
+
+**Other Crop**
+Crop Type: ${otherCropType || 'N/A'}
+Farm Area: ${otherFarmArea || 'N/A'}
+Age of Plant: ${otherAgeOfPlant || 'N/A'}
+
+**Farm Situation**
+${farmSituation || 'N/A'}
+
+**Problems**
+${farmProblem || 'N/A'}
+
+**Solutions**
+${solution || 'N/A'}
+
+**Pesticide History**
+${pesticideHistory || 'N/A'}
+
+**Teamwork**
+${teamwork || 'N/A'}
+`;
+
+      // Use Web Share API to share the report
+      if (navigator.share) {
+        navigator.share({
+          title: 'Farm Report',
+          text: report,
+        }).catch((error) => console.error('Error sharing:', error));
       } else {
-        shareButton.style.display = 'none';
+        alert('Sharing is not supported on this device.');
       }
-    });
-
-    // Event listener for share button
-    shareButton.addEventListener('click', async () => {
-      const name = document.getElementById('name').value.trim();
-      const telephone = document.getElementById('telephone').value.trim();
-      const address = document.getElementById('address').value.trim();
-
-      // Format the telephone number
-      const formattedTelephone = formatTelephone(telephone);
-
-      // Prepare the share message
-      let shareMessage = `Hi ${name},\nYour phone number is ${formattedTelephone}.`;
-      if (address) {
-        shareMessage += `\nYour address is: ${address}.`;
-      }
-      shareMessage += `\nHere are the photos you uploaded.`;
-
-      // Check if the Web Share API is supported
-      if (navigator.canShare && navigator.canShare({ files: uploadedPhotos })) {
-        try {
-          // Use the Web Share API to share details and photos
-          await navigator.share({
-            title: 'Shared Details and Photos',
-            text: shareMessage,
-            files: uploadedPhotos
-          });
-
-          // Open Telegram app after successful sharing
-          const telegramUrl = `tg://msg_url?text=${encodeURIComponent(shareMessage)}`;
-          window.location.href = telegramUrl;
-        } catch (error) {
-          console.error('Error sharing:', error);
-        }
-      } else {
-        alert('Web Share API is not fully supported in your browser.');
-      }
-    });
+    }
   </script>
-
 
 
 </body></html>
