@@ -127,7 +127,7 @@
       <input type="text" id="name" name="name" placeholder="Enter your name" required="">
 
       <label for="telephone">Telephone:</label>
-      <input type="tel" id="telephone" name="telephone" placeholder="Enter your phone number (numbers only)" required="">
+      <input type="tel" id="telephone" name="telephone" placeholder="Enter your phone number" required="">
 
       <label for="address">Address:</label>
       <textarea id="address" name="address" placeholder="Enter your address" rows="3"></textarea>
@@ -155,17 +155,6 @@
 
     let uploadedPhotos = [];
 
-    // Function to format telephone number
-    function formatTelephone(telephone) {
-      const digits = telephone.replace(/\D/g, ''); // Remove non-numeric characters
-      if (digits.length === 9) {
-        return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6, 9)}`;
-      } else if (digits.length === 10) {
-        return `${digits.slice(0, 3)} ${digits.slice(3, 6)} ${digits.slice(6, 10)}`;
-      }
-      return telephone; // Return as is if it doesn't match the expected lengths
-    }
-
     // Event listener for form submission
     submitButton.addEventListener('click', () => {
       const name = document.getElementById('name').value.trim();
@@ -174,16 +163,13 @@
       const photos = document.getElementById('photos').files;
 
       // Validate required fields
-      if (!name) {
-        alert('Please enter your name.');
+      if (!name || !telephone) {
+        alert('Please fill in your name and telephone.');
         return;
       }
 
-      // Format the telephone number
-      const formattedTelephone = formatTelephone(telephone);
-
       // Generate the message
-      let message = `Hi ${name},\nYour phone number is ${formattedTelephone}.`;
+      let message = `Hi ${name},\nYour phone number is ${telephone}.`;
       if (address) {
         message += `\nYour address is: ${address}.`;
       }
@@ -219,11 +205,8 @@
       const telephone = document.getElementById('telephone').value.trim();
       const address = document.getElementById('address').value.trim();
 
-      // Format the telephone number
-      const formattedTelephone = formatTelephone(telephone);
-
       // Prepare the share message
-      let shareMessage = `Hi ${name},\nYour phone number is ${formattedTelephone}.`;
+      let shareMessage = `Hi ${name},\nYour phone number is ${telephone}.`;
       if (address) {
         shareMessage += `\nYour address is: ${address}.`;
       }
