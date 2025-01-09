@@ -221,12 +221,10 @@
             text: shareMessage,
             files: uploadedPhotos
           });
-
-          // Open Telegram app after successful sharing
-          const telegramUrl = `tg://msg_url?text=${encodeURIComponent(shareMessage)}`;
-          window.location.href = telegramUrl;
+          alert('Shared successfully to Telegram!');
         } catch (error) {
           console.error('Error sharing:', error);
+          alert('Failed to share the content.');
         }
       } else {
         alert('Web Share API is not fully supported in your browser.');
