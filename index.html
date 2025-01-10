@@ -28,10 +28,6 @@
       border-radius: 5px;
       background: #f9f9f9;
     }
-    .section h2 {
-      font-size: 1rem;
-      margin-bottom: 5px;
-    }
     .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -67,13 +63,11 @@
     <form id="farmForm">
       <!-- Section 1: Report Date -->
       <div class="section">
-        <h2>Section 1: Report Date</h2>
-        <input type="date" id="reportDate" name="reportDate" value="">
+        <input type="date" id="reportDate" name="reportDate" placeholder="Report Date">
       </div>
 
       <!-- Section 2: Farmer Info -->
       <div class="section">
-        <h2>Section 2: Farmer Information</h2>
         <div class="row">
           <input type="text" id="farmerName" name="farmerName" placeholder="Farmer Name">
           <select id="gender" name="gender">
@@ -95,7 +89,6 @@
 
       <!-- Section 3: Crop Info -->
       <div class="section">
-        <h2>Section 3: Crop Information</h2>
         <div class="row">
           <input type="text" id="cropType" name="cropType" placeholder="Crop Type">
           <input type="number" step="0.01" id="farmArea" name="farmArea" placeholder="Farm Area (ha)">
@@ -105,7 +98,6 @@
 
       <!-- Section 4: Other Crops -->
       <div class="section hidden" id="otherCropSection">
-        <h2>Section 4: Other Crop</h2>
         <div class="row">
           <input type="text" id="otherCropType" name="otherCropType" placeholder="Other Crop Type">
           <input type="number" step="0.01" id="otherFarmArea" name="otherFarmArea" placeholder="Other Farm Area (ha)">
@@ -116,7 +108,6 @@
 
       <!-- Combined Section 5 and 6 -->
       <div class="section">
-        <h2>Section 5 &amp; 6: Farm Situation, Problems, and Solutions</h2>
         <textarea id="farmSituation" name="farmSituation" rows="2" placeholder="Situation of Farm"></textarea>
         <textarea id="farmProblem" name="farmProblem" rows="2" placeholder="Problem in Farm"></textarea>
         <textarea id="solution" name="solution" rows="2" placeholder="Solution"></textarea>
@@ -125,11 +116,10 @@
 
       <!-- Section 7: Teamwork -->
       <div class="section">
-        <h2>Section 7: Teamwork</h2>
         <textarea id="teamwork" name="teamwork" rows="2" placeholder="Teamwork"></textarea>
       </div>
 
-      <button type="submit">Submit</button>
+      <button type="submit">Share Report</button>
     </form>
   </div>
 
@@ -183,9 +173,23 @@ Pesticide History: ${pesticideHistory}
 Teamwork: ${teamwork}
       `;
 
-      // Share via Telegram
-      const url = `https://t.me/share/url?text=${encodeURIComponent(report)}`;
-      window.location.href = url; // Immediately open Telegram
+      // Share via Web Share API
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Farm Report',
+            text: report,
+          });
+
+          // Open Telegram app immediately after successful sharing
+          const telegramUrl = `https://t.me/share/url?text=${encodeURIComponent(report)}`;
+          window.location.href = telegramUrl;
+        } catch (err) {
+          console.error('Error sharing:', err);
+        }
+      } else {
+        alert('Web Share API is not supported in your browser.');
+      }
     });
   </script>
 
