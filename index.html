@@ -39,16 +39,7 @@
       grid-template-columns: 3fr 2fr 1fr;
       gap: 4px; /* Space between input boxes */
     }
-    input, textarea, button {
-      width: 100%;
-      padding: 8px;
-      font-size: 0.9rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      color:#757575;
-      box-sizing: border-box; /* Ensures the input fits inside the container */
-    }
-    select{
+    input, textarea, select, button {
       width: 100%;
       padding: 8px;
       font-size: 0.9rem;
@@ -60,6 +51,7 @@
       -moz-appearance: none;    /* Remove default styling on Firefox */
       appearance: none;         /* Remove default styling for modern browsers */
     }
+
     textarea {
       resize: vertical;
     }
@@ -117,17 +109,17 @@
         </div>
         
       </div>
-
+      <hr style="width:100%;text-align:left;margin-left:0">
       <!-- Section 4: Other Crops -->
-      <div class="section hidden" id="otherCropSection">
+      <!-- <div class="section hidden" id="otherCropSection">
         <div class="row3">
           <input type="text" id="otherCropType" name="otherCropType" placeholder="Other Crop Type">
           <input type="number" step="0.01" id="otherFarmArea" name="otherFarmArea" placeholder="Area (ha)">
           <input type="number" step="0.01" id="otherAgeOfPlant" name="otherAgeOfPlant" placeholder="Age">
         </div>
         
-      </div>
-      <button style="background-color: #efefef; color:#757575;" type="button" id="addCropButton">Add Crop</button>
+      </div> -->
+      <!-- <button style="background-color: #efefef; color:#757575;" type="button" id="addCropButton">Add Crop</button> -->
 
       <!-- Combined Section 5 and 6 -->
       <div class="section">
@@ -170,30 +162,30 @@
       const cropType = document.getElementById('cropType').value;
       const farmArea = document.getElementById('farmArea').value;
       const ageOfPlant = document.getElementById('ageOfPlant').value;
-      const otherCropType = document.getElementById('otherCropType').value;
-      const otherFarmArea = document.getElementById('otherFarmArea').value;
-      const otherAgeOfPlant = document.getElementById('otherAgeOfPlant').value;
+      // const otherCropType = document.getElementById('otherCropType').value;
+      // const otherFarmArea = document.getElementById('otherFarmArea').value;
+      // const otherAgeOfPlant = document.getElementById('otherAgeOfPlant').value;
       const farmSituation = document.getElementById('farmSituation').value;
       const farmProblem = document.getElementById('farmProblem').value;
       const solution = document.getElementById('solution').value;
       const pesticideHistory = document.getElementById('pesticideHistory').value;
       const teamwork = document.getElementById('teamwork').value;
 
-      // Generate report text
+      // Generate report text // Other Crop: ${otherCropType}, Farm Area: ${otherFarmArea}, Age: ${otherAgeOfPlant}
       const report = `
-**Farm Report**
-Date: ${reportDate}
-Name: ${farmerName}
-Gender: ${gender}
-Telephone: ${telephone}
-Address: ${village}, ${commune}, ${district}, ${province}
-Crop Type: ${cropType}, Area: ${farmArea} ហិកតា, Age: ${ageOfPlant} ឆ្នាំ
-Other Crop: ${otherCropType}, Farm Area: ${otherFarmArea}, Age: ${otherAgeOfPlant}
-Situation: ${farmSituation}
-Problem: ${farmProblem}
-Solution: ${solution}
-History: ${pesticideHistory}
-Teamwork: ${teamwork}
+||របាយការណ៍ចុះទីផ្សារ||
+កាលបរិច្ឆេទ: ${reportDate}
+ឈ្មោះកសិករ: ${farmerName}
+ភេទ: ${gender}
+លេខទូរស័ព្ទ: ${telephone}
+អាសយដ្ឋាន: ភូមិ${village} ឃុំ${commune} ស្រុក${district} ខេត្ត${province}
+ប្រភេទដំណាំ: ${cropType} ផ្ទៃដី: ${farmArea} ហិកតា អាយុដំណាំ:${ageOfPlant} ឆ្នាំ
+
+- ស្ថានភាពដំណាំ: ${farmSituation}
+- បញ្ហាជួបប្រទះ: ${farmProblem}
+- ដំណោះស្រាយ: ${solution}
+- ប្រវត្តិប្រើប្រាស់: ${pesticideHistory}
+- ក្រុមការងារ: ${teamwork}
       `;
 
       // Share via Web Share API
