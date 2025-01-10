@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="en"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form and Share</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, button, textarea {
+      margin-top: 5px;
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
+    }
+
+    #preview {
+      margin-top: 20px;
+    }
+
+    .photo-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .photo-preview img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Share Information and Photos</h1>
+  <form id="userForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" placeholder="Enter your name" required="">
+
+    <label for="telephone">Telephone:</label>
+    <input type="tel" id="telephone" name="telephone" placeholder="Enter your phone number" required="">
+
+    <label for="address">Address:</label>
+    <textarea id="address" name="address" placeholder="Enter your address" rows="3"></textarea>
+
+    <label for="photos">Upload Photos:</label>
+    <input type="file" id="photos" name="photos" accept="image/*" multiple="">
+
+    <button type="button" id="submitButton">Submit</button>
+  </form>
+
+  <div id="preview">
+    <h2>Generated Text:</h2>
+    <p id="generatedText"></p>
+    <div class="photo-preview" id="photoPreview"></div>
+    <button id="shareButton" style="display: none;">Share</button>
+  </div>
+
+  <script>
+    const form = document.getElementById('userForm');
+    const submitButton = document.getElementById('submitButton');
+    const generatedText = document.getElementById('generatedText');
+    const photoPreview = document.getElementById('photoPreview');
+    const shareButton = document.getElementById('shareButton');
+
+    let uploadedPhotos = [];
+
+    submitButton.addEventListener('click', () => {
+      const name = document.getElementById('name').value;
+      const telephone = document.getElementById('telephone').value;
+      const address = document.getElementById('address').value;
+      const photos = document.getElementById('photos').files;
+
+      if (!name || !telephone) {
+        alert('Please fill in your name and telephone.');
+        return;
+      }
+
+      // Generate message
+      let message = `Hi ${name}, your phone number is ${telephone}`;
+      if (address) {
+        message += ` and your address is ${address}.`;
+      }
+      message += ' Here are the uploaded photos:';
+
+      generatedText.textContent = message;
+
+      // Preview photos
+      photoPreview.innerHTML = ''; // Clear previous preview
+      uploadedPhotos = []; // Clear previous photos
+      Array.from(photos).forEach(photo => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          photoPreview.appendChild(img);
+        };
+        reader.readAsDataURL(photo);
+        uploadedPhotos.push(photo);
+      });
+
+      // Show share button
+      if (photos.length > 0) {
+        shareButton.style.display = 'block';
+      } else {
+        shareButton.style.display = 'none';
+      }
+    });
+
+    shareButton.addEventListener('click', async () => {
+      const name = document.getElementById('name').value;
+      const telephone = document.getElementById('telephone').value;
+
+      // Message to be shared
+      const shareMessage = `Hi ${name}, your phone number is ${telephone} with uploaded photos were sent.`;
+
+      // Check if the Web Share API is available
+      if (navigator.canShare) {
+        try {
+          // Create an array of files to share
+          const filesArray = uploadedPhotos.map(file => file);
+
+          // Use the Web Share API
+          await navigator.share({
+            title: 'Shared Information',
+            text: shareMessage,
+            files: filesArray
+          });
+          alert('Shared successfully!');
+        } catch (error) {
+          console.error('Error sharing:', error);
+          alert('Error sharing the content.');
+        }
+      } else {
+        alert('Web Share API is not supported on this browser.');
+      }
+    });
+  </script>
+
+
+
+</body></html>

@@ -17,11 +17,10 @@
     h1 {
       font-size: 1.2rem;
       text-align: center;
-      margin-bottom: 10px;
     }
     form {
       display: grid;
-      gap: 15px;
+      gap: 10px;
     }
     .section {
       border: 1px solid #ccc;
@@ -29,10 +28,19 @@
       border-radius: 5px;
       background: #f9f9f9;
     }
+    .section h2 {
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
     .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px; /* Space between input boxes */
+      gap: 10px;
+    }
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
     }
     input, select, textarea, button {
       width: 100%;
@@ -40,7 +48,6 @@
       font-size: 0.9rem;
       border: 1px solid #ccc;
       border-radius: 4px;
-      box-sizing: border-box; /* Ensures the input fits inside the container */
     }
     textarea {
       resize: vertical;
@@ -65,63 +72,126 @@
     <form id="farmForm">
       <!-- Section 1: Report Date -->
       <div class="section">
-        <input type="date" id="reportDate" name="reportDate" placeholder="Report Date">
+        <h2>Section 1: Report Date</h2>
+        <div class="row">
+          <div>
+            <label for="reportDate">Report Date:</label>
+            <input type="date" id="reportDate" name="reportDate" value="">
+          </div>
+        </div>
       </div>
 
       <!-- Section 2: Farmer Info -->
       <div class="section">
+        <h2>Section 2: Farmer Information</h2>
         <div class="row">
-          <input type="text" id="farmerName" name="farmerName" placeholder="Farmer Name">
-          <select id="gender" name="gender">
-            <option value="">Gender</option>
-            <option value="ប">ប</option>
-            <option value="ស">ស</option>
-          </select>
+          <div>
+            <label for="farmerName">Farmer Name:</label>
+            <input type="text" id="farmerName" name="farmerName">
+          </div>
+          <div>
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+              <option value="">Select</option>
+              <option value="ប">ប</option>
+              <option value="ស">ស</option>
+            </select>
+          </div>
         </div>
-        <input type="tel" id="telephone" name="telephone" placeholder="Telephone (### ### ###)">
         <div class="row">
-          <input type="text" id="village" name="village" placeholder="Village">
-          <input type="text" id="commune" name="commune" placeholder="Commune">
+          <div>
+            <label for="telephone">Telephone:</label>
+            <input type="tel" id="telephone" name="telephone" placeholder="### ### ###">
+          </div>
         </div>
-        <div class="row">
-          <input type="text" id="district" name="district" placeholder="District">
-          <input type="text" id="province" name="province" placeholder="Province">
+        <div>
+          <label>Address:</label>
+          <div class="row">
+            <input type="text" id="village" name="village" placeholder="Village">
+            <input type="text" id="commune" name="commune" placeholder="Commune">
+          </div>
+          <div class="row">
+            <input type="text" id="district" name="district" placeholder="District">
+            <input type="text" id="province" name="province" placeholder="Province">
+          </div>
         </div>
       </div>
 
       <!-- Section 3: Crop Info -->
       <div class="section">
+        <h2>Section 3: Crop Information</h2>
         <div class="row">
-          <input type="text" id="cropType" name="cropType" placeholder="Crop Type">
-          <input type="number" step="0.01" id="farmArea" name="farmArea" placeholder="Farm Area (ha)">
+          <div>
+            <label for="cropType">Crop Type:</label>
+            <input type="text" id="cropType" name="cropType">
+          </div>
+          <div>
+            <label for="farmArea">Farm Area (ha):</label>
+            <input type="number" step="0.01" id="farmArea" name="farmArea">
+          </div>
         </div>
-        <input type="text" id="ageOfPlant" name="ageOfPlant" placeholder="Age of Plant">
+        <div>
+          <label for="ageOfPlant">Age of Plant:</label>
+          <input type="text" id="ageOfPlant" name="ageOfPlant">
+        </div>
       </div>
 
       <!-- Section 4: Other Crops -->
       <div class="section hidden" id="otherCropSection">
+        <h2>Section 4: Other Crop</h2>
         <div class="row">
-          <input type="text" id="otherCropType" name="otherCropType" placeholder="Other Crop Type">
-          <input type="number" step="0.01" id="otherFarmArea" name="otherFarmArea" placeholder="Other Farm Area (ha)">
+          <div>
+            <label for="otherCropType">Crop Type:</label>
+            <input type="text" id="otherCropType" name="otherCropType">
+          </div>
+          <div>
+            <label for="otherFarmArea">Farm Area (ha):</label>
+            <input type="number" step="0.01" id="otherFarmArea" name="otherFarmArea">
+          </div>
         </div>
-        <input type="text" id="otherAgeOfPlant" name="otherAgeOfPlant" placeholder="Other Age of Plant">
+        <div>
+          <label for="otherAgeOfPlant">Age of Plant:</label>
+          <input type="text" id="otherAgeOfPlant" name="otherAgeOfPlant">
+        </div>
       </div>
       <button type="button" id="addCropButton">Add Crop</button>
 
-      <!-- Combined Section 5 and 6 -->
+      <!-- Section 5: Situation and Problem -->
       <div class="section">
-        <textarea id="farmSituation" name="farmSituation" rows="2" placeholder="Situation of Farm"></textarea>
-        <textarea id="farmProblem" name="farmProblem" rows="2" placeholder="Problem in Farm"></textarea>
-        <textarea id="solution" name="solution" rows="2" placeholder="Solution"></textarea>
-        <textarea id="pesticideHistory" name="pesticideHistory" rows="2" placeholder="History of Using Pesticide"></textarea>
+        <h2>Section 5: Farm Situation and Problems</h2>
+        <div>
+          <label for="farmSituation">Situation of Farm:</label>
+          <textarea id="farmSituation" name="farmSituation" rows="2"></textarea>
+        </div>
+        <div>
+          <label for="farmProblem">Problem in Farm:</label>
+          <textarea id="farmProblem" name="farmProblem" rows="2"></textarea>
+        </div>
+      </div>
+
+      <!-- Section 6: Solution and History -->
+      <div class="section">
+        <h2>Section 6: Solution and History</h2>
+        <div>
+          <label for="solution">Solution:</label>
+          <textarea id="solution" name="solution" rows="2"></textarea>
+        </div>
+        <div>
+          <label for="pesticideHistory">History of Using Pesticide:</label>
+          <textarea id="pesticideHistory" name="pesticideHistory" rows="2"></textarea>
+        </div>
       </div>
 
       <!-- Section 7: Teamwork -->
       <div class="section">
-        <textarea id="teamwork" name="teamwork" rows="2" placeholder="Teamwork"></textarea>
+        <h2>Section 7: Teamwork</h2>
+        <div>
+          <label for="teamwork">Teamwork:</label>
+          <textarea id="teamwork" name="teamwork" rows="2"></textarea>
+        </div>
       </div>
 
-      <button type="submit">Share Report</button>
+      <button type="submit">Submit</button>
     </form>
   </div>
 
@@ -160,38 +230,24 @@
 
       // Generate report text
       const report = `
-**Farm Report**
-Report Date: ${reportDate}
-Farmer Name: ${farmerName}
-Gender: ${gender}
-Telephone: ${telephone}
-Address: ${village}, ${commune}, ${district}, ${province}
-Crop Type: ${cropType}, Farm Area: ${farmArea}, Age: ${ageOfPlant}
-Other Crop: ${otherCropType}, Farm Area: ${otherFarmArea}, Age: ${otherAgeOfPlant}
-Situation: ${farmSituation}
-Problem: ${farmProblem}
-Solution: ${solution}
-Pesticide History: ${pesticideHistory}
-Teamwork: ${teamwork}
+        **Farm Report**
+        Report Date: ${reportDate}
+        Farmer Name: ${farmerName}
+        Gender: ${gender}
+        Telephone: ${telephone}
+        Address: ${village}, ${commune}, ${district}, ${province}
+        Crop Type: ${cropType}, Farm Area: ${farmArea}, Age: ${ageOfPlant}
+        Other Crop: ${otherCropType}, Farm Area: ${otherFarmArea}, Age: ${otherAgeOfPlant}
+        Situation: ${farmSituation}
+        Problem: ${farmProblem}
+        Solution: ${solution}
+        Pesticide History: ${pesticideHistory}
+        Teamwork: ${teamwork}
       `;
 
-      // Share via Web Share API
-      if (navigator.share) {
-        try {
-          await navigator.share({
-            title: 'Farm Report',
-            text: report,
-          });
-
-          // Open Telegram app immediately after successful sharing
-          const telegramUrl = `tg://msg_url?text=${encodeURIComponent(report)}`;
-          window.location.href = telegramUrl;
-        } catch (err) {
-          console.error('Error sharing:', err);
-        }
-      } else {
-        alert('Web Share API is not supported in your browser.');
-      }
+      // Share via Telegram
+      const url = `https://t.me/share/url?text=${encodeURIComponent(report)}`;
+      window.location.href = url;
     });
   </script>
 

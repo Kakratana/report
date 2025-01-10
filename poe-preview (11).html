@@ -184,7 +184,7 @@ Teamwork: ${teamwork}
           });
 
           // Open Telegram app immediately after successful sharing
-          const telegramUrl = `tg://msg_url?text=${encodeURIComponent(report)}`;
+          const telegramUrl = `https://t.me/share/url?text=${encodeURIComponent(report)}`;
           window.location.href = telegramUrl;
         } catch (err) {
           console.error('Error sharing:', err);
