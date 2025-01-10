@@ -28,13 +28,18 @@
     }
     .section {
       border: 1px solid #ccc;
-      padding: 10px;
+      padding: 8px;
       border-radius: 5px;
       background: #f9f9f9;
     }
     .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 10px; /* Space between input boxes */
+    }
+    .row3 {
+      display: grid;
+      grid-template-columns: 2fr 1fr 0.5fr;
       gap: 10px; /* Space between input boxes */
     }
     input, select, textarea, button {
@@ -67,7 +72,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Farm Report Form</h1>
+    <h1>Marketing Activities Report Form</h1>
     <form id="farmForm">
       <!-- Section 1: Report Date -->
       <div class="section">
@@ -76,50 +81,53 @@
 
       <!-- Section 2: Farmer Info -->
       <div class="section">
-        <div class="row">
+        <div class="row3">
           <input type="text" id="farmerName" name="farmerName" placeholder="Farmer Name">
+          <input type="tel" id="telephone" name="telephone" placeholder="Telephone">
           <select id="gender" name="gender">
-            <option value="">Gender</option>
+            <option value="ប">Sex</option>
             <option value="ប">ប</option>
             <option value="ស">ស</option>
           </select>
         </div>
-        <input type="tel" id="telephone" name="telephone" placeholder="Telephone">
+      </div>
+      <div class="section">  
         <div class="row">
           <input type="text" id="village" name="village" placeholder="Village">
           <input type="text" id="commune" name="commune" placeholder="Commune">
-        </div>
-        <div class="row">
           <input type="text" id="district" name="district" placeholder="District">
           <input type="text" id="province" name="province" placeholder="Province">
         </div>
+
       </div>
 
       <!-- Section 3: Crop Info -->
       <div class="section">
-        <div class="row">
+        <div class="row3">
           <input type="text" id="cropType" name="cropType" placeholder="Crop Type">
-          <input type="number" step="0.01" id="farmArea" name="farmArea" placeholder="Farm Area (ha)">
+          <input type="number" step="0.01" id="farmArea" name="farmArea" placeholder="Area (ha)">
+          <input type="text" id="ageOfPlant" name="ageOfPlant" placeholder="Age">
         </div>
-        <input type="text" id="ageOfPlant" name="ageOfPlant" placeholder="Age of Plant">
+        
       </div>
 
       <!-- Section 4: Other Crops -->
       <div class="section hidden" id="otherCropSection">
-        <div class="row">
+        <div class="row3">
           <input type="text" id="otherCropType" name="otherCropType" placeholder="Other Crop Type">
-          <input type="number" step="0.01" id="otherFarmArea" name="otherFarmArea" placeholder="Other Farm Area (ha)">
+          <input type="number" step="0.01" id="otherFarmArea" name="otherFarmArea" placeholder="Area (ha)">
+          <input type="text" id="otherAgeOfPlant" name="otherAgeOfPlant" placeholder="Age">
         </div>
-        <input type="text" id="otherAgeOfPlant" name="otherAgeOfPlant" placeholder="Other Age of Plant">
+        
       </div>
-      <button type="button" id="addCropButton">Add Crop</button>
+      <button style="background-color: #cccccc;" type="button" id="addCropButton">Add Crop</button>
 
       <!-- Combined Section 5 and 6 -->
       <div class="section">
         <textarea id="farmSituation" name="farmSituation" rows="2" placeholder="Situation of Farm"></textarea>
         <textarea id="farmProblem" name="farmProblem" rows="2" placeholder="Problem in Farm"></textarea>
         <textarea id="solution" name="solution" rows="2" placeholder="Solution"></textarea>
-        <textarea id="pesticideHistory" name="pesticideHistory" rows="2" placeholder="History of Using Pesticide"></textarea>
+        <textarea id="pesticideHistory" name="pesticideHistory" rows="2" placeholder="History of Using Input"></textarea>
       </div>
 
       <!-- Section 7: Teamwork -->
