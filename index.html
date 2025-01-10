@@ -4,11 +4,8 @@
   <title>Farm Report</title>
   <style>
     body {
-      -webkit-appearance: none; /* Remove default styling on iOS Safari */
-      -moz-appearance: none;    /* Remove default styling on Firefox */
-      appearance: none;         /* Remove default styling for modern browsers */
       font-family: Arial, sans-serif;
-      margin: 10px;
+      margin: 8px;
       padding: 0;
       line-height: 1.4;
     }
@@ -20,11 +17,11 @@
     h1 {
       font-size: 1.2rem;
       text-align: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     form {
       display: grid;
-      gap: 10px;
+      gap: 8px;
     }
     .section {
       border: 0px solid #ccc;
@@ -42,7 +39,16 @@
       grid-template-columns: 3fr 2fr 1fr;
       gap: 4px; /* Space between input boxes */
     }
-    input, select, textarea, button {
+    input, textarea, button {
+      width: 100%;
+      padding: 8px;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      color:#757575;
+      box-sizing: border-box; /* Ensures the input fits inside the container */
+    }
+    select{
       width: 100%;
       padding: 8px;
       font-size: 0.9rem;
