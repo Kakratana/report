@@ -4,6 +4,9 @@
   <title>Farm Report</title>
   <style>
     body {
+      -webkit-appearance: none; /* Remove default styling on iOS Safari */
+      -moz-appearance: none;    /* Remove default styling on Firefox */
+      appearance: none;         /* Remove default styling for modern browsers */
       font-family: Arial, sans-serif;
       margin: 10px;
       padding: 0;
@@ -41,6 +44,9 @@
       border: 1px solid #ccc;
       border-radius: 4px;
       box-sizing: border-box; /* Ensures the input fits inside the container */
+      -webkit-appearance: none; /* Remove default styling on iOS Safari */
+      -moz-appearance: none;    /* Remove default styling on Firefox */
+      appearance: none;         /* Remove default styling for modern browsers */
     }
     textarea {
       resize: vertical;
@@ -78,7 +84,7 @@
             <option value="ស">ស</option>
           </select>
         </div>
-        <input type="tel" id="telephone" name="telephone" placeholder="Telephone (### ### ###)">
+        <input type="tel" id="telephone" name="telephone" placeholder="Telephone">
         <div class="row">
           <input type="text" id="village" name="village" placeholder="Village">
           <input type="text" id="commune" name="commune" placeholder="Commune">
